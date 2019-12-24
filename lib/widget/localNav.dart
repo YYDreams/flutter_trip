@@ -7,7 +7,7 @@ import 'package:flutter_trip/widget/webView.dart';
 class LocalNavWidget extends StatelessWidget {
 
 
-final List<LocalNavList> localNavList ; 
+final List<CommonModel> localNavList ; 
 // final String name ; 
 
   //构造方法  required表示必传参数  如果不加的话 则表示可选
@@ -57,7 +57,7 @@ _items(BuildContext context){
 }
 
 //Widget:返回类型
-Widget _item(BuildContext context,LocalNavList model){
+Widget _item(BuildContext context,CommonModel model){
  
  return GestureDetector( //点击响应时间
 

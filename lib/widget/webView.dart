@@ -53,6 +53,8 @@ switch(state.type){
 
       webviewPlugin.launch(widget.url);
 
+    }else{
+
       Navigator.pop(context);
       exiting = true;
 
@@ -141,18 +143,28 @@ _onHttpError = webviewPlugin.onHttpError.listen((WebViewHttpError error){
      }
      //非隐藏状态下  app
      return Container(
+       
+       //返回按钮看不到了 iphonex 处理
+       color: backButtonColor,
+       padding: EdgeInsets.fromLTRB(0, 40 , 0, 10),
+
        // appBar撑满整个屏幕的高度 (FractionallySizedBox)
        //
        child:  FractionallySizedBox(
+         
          widthFactor: 1, //宽度撑满
          child: Stack(
            children: <Widget>[
              GestureDetector(
+               onTap: (){
+                 //返回上一页
+                 Navigator.pop(context);
+               },
                child: Container(
                  margin:  EdgeInsets.only(left: 10),
                  child: Icon(
                    Icons.close,
-                   color:backButtonColor,
+                   color:Colors.red, //backButtonColor
                    size: 26,
 
                  ),
@@ -185,12 +197,12 @@ _onHttpError = webviewPlugin.onHttpError.listen((WebViewHttpError error){
  //在该方法里面取消监听
  @override
  void dispose() { 
-   super.dispose();
    _onUrlChanged.cancel();
    _onStateChanged.cancel();
    _onHttpError.cancel();
    webviewPlugin.dispose();
 
+   super.dispose();
 
  }
 

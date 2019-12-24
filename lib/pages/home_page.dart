@@ -3,6 +3,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'dart:convert';
 import 'package:flutter_trip/model/home_model.dart';
 import 'package:flutter_trip/network/network.dart';
+import 'package:flutter_trip/widget/gridNav.dart';
 import 'package:flutter_trip/widget/localNav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
@@ -25,7 +26,9 @@ List _images = [
 double navAlpha = 0;  //设置导航栏的默认值
 
 String resultString = '1234';
-  List<LocalNavList> localNavList = []; //local导航
+List<CommonModel> localNavList = []; //local导航
+
+GridNav gridNavModel ; //
 
 
 
@@ -39,8 +42,8 @@ void initState() {
 }
 _onScroll(offset){
   //动态设置
-  print(offset);
-  print('offset:$offset');
+  // print(offset);
+  // print('offset:$offset');
 
   double alpha  = offset / APPBAR_SCROLL_OFFSET;
     if(alpha < 0) {
@@ -52,7 +55,7 @@ _onScroll(offset){
     setState(() {
       navAlpha = alpha;
     });
-  print('navAlpha:$navAlpha');
+  // print('navAlpha:$navAlpha');
 
 }
 
@@ -67,7 +70,8 @@ _onScroll(offset){
 
     setState(() {
      localNavList = model.localNavList;
-     print(model.localNavList);
+     gridNavModel = model.gridNav;
+    //  print(model.localNavList);
      resultString = json.encode(model.localNavList);
 
 
@@ -169,7 +173,13 @@ _onScroll(offset){
               child:LocalNavWidget(localNavList: localNavList),
 
              ),
+               Padding(
+                 //外面设置间隙
+              padding: EdgeInsets.fromLTRB(8, 0, 8, 4),
+              child: GirdNavWidget(gridNavModel: gridNavModel),
 
+             ),
+            
              Container(
                height: 800,
                child: ListTile(
