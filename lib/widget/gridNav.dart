@@ -74,10 +74,6 @@ class GirdNavWidget extends StatelessWidget {
       );
 
 
-
-         
-
-
     }
      //左边一个item
     _mainItem(BuildContext context,CommonModel model){
