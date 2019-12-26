@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trip/pages/home_page.dart';
 import 'package:flutter_trip/pages/mine_page.dart';
 import 'package:flutter_trip/pages/search_page.dart';
+import 'package:flutter_trip/pages/test_page.dart';
 import 'package:flutter_trip/pages/travel_page.dart';
 
 class TabNavigator extends StatefulWidget{
@@ -26,6 +27,7 @@ int _currentIndex = 0; //记录当前选中的index
             HomePage(),
             SearchPage(),
             MinePage(),
+            TestPage(),
             TravelPage(),
          ],
        ),

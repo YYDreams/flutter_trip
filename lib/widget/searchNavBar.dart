@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
@@ -18,7 +17,7 @@ class SearchNavBarWidget extends StatefulWidget {
   final void Function() speakClick;
   final void Function() inputBoxClick; ////输入框点击回调
   final ValueChanged<String> onChanged; // 内容变化回调
-  
+  final String city;
   SearchNavBarWidget({Key key,
   this.enabled = true,
   this.hideLeft,
@@ -29,7 +28,8 @@ class SearchNavBarWidget extends StatefulWidget {
   this.rightButtonOnClick,
   this.speakClick,
   this.inputBoxClick,
-  this.onChanged}) : super(key: key);
+  this.onChanged,
+  this.city}) : super(key: key);
 
   @override
   _SearchNavBarWidgetState createState() => _SearchNavBarWidgetState();
@@ -93,21 +93,9 @@ class _SearchNavBarWidgetState extends State<SearchNavBarWidget> {
 
              ), 
              widget.rightButtonOnClick),
-
-             
-
-
-
           ],
-            
-
-
-
         ),
-
       );  
-
-
       }
 
       //输入框
@@ -123,7 +111,7 @@ class _SearchNavBarWidgetState extends State<SearchNavBarWidget> {
 
 
       return Container(
-        height: 40,
+        height: 30,
         decoration: BoxDecoration(
           color: inputBoxColor,
           borderRadius: BorderRadius.circular(
@@ -136,14 +124,19 @@ class _SearchNavBarWidgetState extends State<SearchNavBarWidget> {
 
         // ),
          child: Row(
+           
            children: <Widget>[
+             Padding(
+               padding: EdgeInsets.only(left: 8),
+             ),
              Icon(Icons.search,
-
+             
              size: 20,
              color: widget.searchBarType == SearchBarType.normal ? Color(0xffA9A9A9): Colors.blue,
              ),
              //
              Expanded(
+               
                
                flex: 1,
                child: widget.searchBarType  == SearchBarType.normal 
@@ -153,23 +146,24 @@ class _SearchNavBarWidgetState extends State<SearchNavBarWidget> {
                  onChanged: _onChanged,
                  autofocus: true,
                  style: TextStyle(
-                  //  fontSize: 14,
+                   fontSize: 14,
                    fontWeight: FontWeight.w300,
                    color: Colors.black,
                  ),
 
                 //输入文本样式
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                  contentPadding: EdgeInsets.fromLTRB(5, 0, 5, 10),
                   
                   border: InputBorder.none,
                   hintText: widget.defalutTip ??'',
-                  // hintStyle: TextStyle(
-                  //   fontSize: 18
-                  // )
+                  hintStyle: TextStyle(
+                    fontSize: 14,
+                    
+                  )
 
                 ),
-
+ 
 
                ): _tapOnClick(
                  Container(
@@ -211,9 +205,67 @@ class _SearchNavBarWidgetState extends State<SearchNavBarWidget> {
 
     _homeSearcBar(){
 
-      }
+      return Container(
+        
+        child: Row(
+          children: <Widget>[
+            //左边城市按钮
+            _tapOnClick(Container(
+                
+                
+                child: Row(
+                  children: <Widget>[
+                   Text(
+                widget.city??'',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: _homeFontColor
+                ),
+              ), 
+                  Icon(
+                    Icons.expand_more,
+                    color:  _homeFontColor,
+                    size: 22,
+                  ),
+                  ],
+                ),
+          
+               
+            ), widget.leftButtonOnClick),
+
+
+            //中间输入框
+            Expanded(
+              flex: 1,
+              child: _inputBox(),
+            ),
+
+          //右边消息图标
+          _tapOnClick(Container(
+            padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+            child:Icon(
+              Icons.message,
+              size: 20,
+              color: _homeFontColor,
+
+            )
+
+          ), 
+          widget.rightButtonOnClick),
+
+          ],
+        ),
+      );
+
+
+     
+
+
+    }
+
       //包裹点击事件
-      _tapOnClick(Widget child, void Function() callback){
+    _tapOnClick(Widget child, void Function() callback){
         return GestureDetector(
           onTap: (){
             if(callback != null) callback();
@@ -239,4 +291,9 @@ class _SearchNavBarWidgetState extends State<SearchNavBarWidget> {
     }
 
   }
+
+  Color get _homeFontColor{
+    return widget.searchBarType == SearchBarType.homeLight? Colors.black54 : Colors.white;
+  }
+
 }

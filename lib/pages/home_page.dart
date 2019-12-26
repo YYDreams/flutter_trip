@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_trip/model/home_model.dart';
 import 'package:flutter_trip/network/network.dart';
+import 'package:flutter_trip/pages/search_page.dart';
 import 'package:flutter_trip/widget/gridNav.dart';
 import 'package:flutter_trip/widget/localNav.dart';
 import 'package:flutter_trip/widget/salesBox.dart';
+import 'package:flutter_trip/widget/searchNavBar.dart';
 import 'package:flutter_trip/widget/subNav.dart';
 import 'package:flutter_trip/widget/loading_container.dart';
 const APPBAR_SCROLL_OFFSET = 100;
-
+const kDefaultText = '网红打卡地 景点 酒店 美食';
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
 
@@ -98,7 +100,11 @@ _onScroll(offset){
           return false;
 
          },
-          child:  _listView),),),
+
+          
+          child:  
+          
+          _listView),),),
           _appBar,
         ],
       ),
@@ -110,22 +116,90 @@ _onScroll(offset){
 //设置AppBar
 Widget get _appBar{
 
-  return  Opacity(
-            opacity: navAlpha,
-            child: Container(
-              height: 64,
-              decoration: BoxDecoration(color: Colors.white),
-              child: Center(
-                child: Padding(padding:EdgeInsets.only(top: 20),
-                child: Text('首页',style:TextStyle(
-                  fontSize: 20,
-                ) ,),
-                ),
-              ),
-            ),
-          ); 
+            // final double topPadding = MediaQuery.of(context).padding.top;
+            //  final double bottomPadding = MediaQuery.of(context).padding.bottom;
+            // print(topPadding); //打印：iphoneX 44  其他尺寸的打印：20
+            // print(bottomPadding); //打印：iphoneX 0 其他尺寸的打印：0
+  return Column(
+    
+      children: <Widget>[
+        Container(
+
+          child: Container(
+  
+            padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).padding.top, 0, 0),
+            height: 80,
+            decoration: BoxDecoration(
+              color: Color.fromARGB((navAlpha * 255).toInt()  , 255, 255, 255),),
+              child: _search,
+
+          ),
+
+        ),
+        Container(
+          height: navAlpha > 0.2 ? 0.5 : 0,
+          decoration: BoxDecoration(
+            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 0.5)],
+          ),
+        )
+      ],
+  );
+
+ 
 
 }
+
+Widget get _search{
+
+return Column(
+      
+         children: <Widget>[
+           SearchNavBarWidget(
+               defalutTip: 'ddd',
+               defaultText: kDefaultText,
+               city: '深圳市',
+
+
+
+              //滚动的时候改变城市的字体颜色以及右边按钮图标颜色
+               searchBarType: navAlpha > 0.2
+                  ? SearchBarType.homeLight
+                  : SearchBarType.home,
+              // speakClick: _jumpToSearch,
+              speakClick: _jumpToSpeakAction,
+              // defaultText: SEARCH_BAR_DEFAULT_TEXT,
+              leftButtonOnClick: _jumpToCityAction,
+              inputBoxClick: _jumpToSearchAction,
+              rightButtonOnClick: _jumpToMessageAction,
+            ),
+
+          //    hideLeft: true,
+          //    defalutTip: '哈哈',
+          //    defaultText: '呵呵',
+          //    leftButtonOnClick: (){
+          //       print('leftButtonOnClick');
+          //    },
+          //    rightButtonOnClick: (){
+          //       print('rightButtonOnClick');
+          //    },
+          //    speakClick: (){
+          //       print('speakClick');
+
+          //    },
+          //    inputBoxClick: (){
+
+          //      print('inputBoxClick');
+
+          //    },
+
+          //  )
+         ],
+       );
+       
+
+}
+
+
 
   //设置UI
 Widget get _listView{
@@ -175,4 +249,36 @@ Widget get _listView{
           ],
         );
   }
+
+
+//SEL Actions
+_jumpToCityAction(){
+
+print('跳转选择地址');
+
+}
+_jumpToSearchAction(){
+  print('跳转搜索页面');
+  Navigator.push(context, MaterialPageRoute(
+    builder: (context){
+
+      return SearchPage(defalutTip: kDefalutTip,hideLeft: false,);
+
+    }
+  ));
+
+
+
+
+}
+_jumpToSpeakAction(){
+   print('跳转语音');
+
+}
+
+_jumpToMessageAction(){
+  print('跳转消息页面');
+}
+
+
 }
