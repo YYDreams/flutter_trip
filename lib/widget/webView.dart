@@ -16,7 +16,7 @@ class WebView extends StatefulWidget {
   final bool backForbid;  
 
 
-  WebView({this.url,this.statusColor,this.title,this.hideAppBar,this.backForbid = false});
+  WebView({this.url,this.statusColor  ,this.title,this.hideAppBar,this.backForbid = false});
 
   @override
   _WebViewState createState() => _WebViewState();

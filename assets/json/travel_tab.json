@@ -1,0 +1,98 @@
+{
+    "url": "https://m.ctrip.com/restapi/soa2/16189/json/searchTripShootListForHomePageV2?_fxpcqlniredt=09031010211161114530&__gw_appid=99999999&__gw_ver=1.0&__gw_from=10650013707&__gw_platform=H5",
+    "params": {
+      "districtId": -1,
+      "groupChannelCode": "tourphoto_global1",
+      "type": null,
+      "lat": 34.2317081,
+      "lon": 108.928918,
+      "locatedDistrictId": 7,
+      "pagePara": {
+        "pageIndex": 1,
+        "pageSize": 10,
+        "sortType": 9,
+        "sortDirection": 0
+      },
+      "imageCutType": 1,
+      "head": {
+        "cid": "09031010211161114530",
+        "ctok": "",
+        "cver": "1.0",
+        "lang": "01",
+        "sid": "8888",
+        "syscode": "09",
+        "auth": null,
+        "extension": [
+          {
+            "name": "protocal",
+            "value": "https"
+          }
+        ]
+      },
+      "contentType": "json"
+    },
+    "tabs": [
+      {
+        "labelName": "推荐",
+        "groupChannelCode": "tourphoto_global1",
+        "type": 1
+      },
+      {
+        "labelName": "附近",
+        "groupChannelCode": "",
+        "type": 3
+      },
+      {
+        "labelName": "醉美赏月胜地",
+        "groupChannelCode": "tab-moon2",
+        "type": 0
+      },
+      {
+        "labelName": "中秋好去处",
+        "groupChannelCode": "LXP-zhongqiu",
+        "type": 0
+      },
+      {
+        "labelName": "3000出趟国",
+        "groupChannelCode": "3K-GW-all",
+        "type": 0
+      },
+      {
+        "labelName": "假期海岛游",
+        "groupChannelCode": "tab-island",
+        "type": 0
+      },
+      {
+        "labelName": "视频",
+        "groupChannelCode": "text cover&title",
+        "type": 0
+      },
+      {
+        "labelName": "拍照技巧",
+        "groupChannelCode": "tab-photo",
+        "type": 0
+      },
+      {
+        "labelName": "网红打卡地",
+        "groupChannelCode": "WHDKD-whjd",
+        "type": 0
+      },
+      {
+        "labelName": "最酷的事",
+        "groupChannelCode": "tourphoto_test5",
+        "type": 0
+      },
+      {
+        "labelName": "影视剧打卡地",
+        "groupChannelCode": "WHDKD-ysjdkd",
+        "type": 0
+      },
+      {
+        "labelName": "东南亚海岛",
+        "groupChannelCode": "Island_All",
+        "type": 0
+      }
+    ]
+  }
+  
+  

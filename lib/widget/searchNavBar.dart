@@ -18,6 +18,7 @@ class SearchNavBarWidget extends StatefulWidget {
   final void Function() inputBoxClick; ////输入框点击回调
   final ValueChanged<String> onChanged; // 内容变化回调
   final String city;
+  
   SearchNavBarWidget({Key key,
   this.enabled = true,
   this.hideLeft,
