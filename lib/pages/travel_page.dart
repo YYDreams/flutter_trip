@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_trip/model/travel_model.dart';
 import 'package:flutter_trip/model/travel_tab_model.dart';
 import 'package:flutter_trip/network/network.dart';
 import 'package:flutter_trip/pages/travel_tab_page.dart';

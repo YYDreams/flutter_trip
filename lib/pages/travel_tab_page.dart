@@ -3,6 +3,7 @@ import 'package:flutter_trip/model/travel_model.dart';
 import 'package:flutter_trip/network/network.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_trip/widget/cacehed_image.dart';
+import 'package:flutter_trip/widget/loading_container.dart';
 
 
 const defalut_travel_url = 'https://m.ctrip.com/restapi/soa2/16189/json/searchTripShootListForHomePageV2?_fxpcqlniredt=09031014111431397988&__gw_appid=99999999&__gw_ver=1.0&__gw_from=10650013707&__gw_platform=H5';
@@ -40,6 +41,13 @@ class _TravelTabPageState extends State<TravelTabPage> {
   void initState() { 
 
     _loadData();
+    _scrollController.addListener((){
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        _loadData(loadMore: true);
+
+      }
+
+    });
     super.initState();
     
   }
@@ -50,24 +58,47 @@ class _TravelTabPageState extends State<TravelTabPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-       child: new StaggeredGridView.countBuilder(
-         crossAxisCount: 2, // 总共显示几列
 
-  //?.  表示travelItems不为空的情况下 显示travelItems.length  为空则返回0
-  itemCount: travelItems?.length ?? 0 , //所有item的数量
-  itemBuilder: (BuildContext context, int index) => _TravelItem(
-    item: travelItems[index], index: index),
-  staggeredTileBuilder: (int index) =>
-  new StaggeredTile.fit(1), //
-      // new StaggeredTile.count(2, index.isEven ? 2 : 1), //
-)
-,
-    );
+return Scaffold(
+     body: LoadingContainer(
+       isLoading: _loading,
+       child: RefreshIndicator(
+         onRefresh: _handleRefresh,
+         child: MediaQuery.removePadding(
+           removeTop: true,
+           context: context,
+           child: StaggeredGridView.countBuilder(
+             controller: _scrollController,
+             crossAxisCount: 2,// 总共显示几列
+             //?.  表示travelItems不为空的情况下 显示travelItems.length  为空则返回0
+              itemCount: travelItems?.length ?? 0 , //所有item的数量
+             itemBuilder: (BuildContext context,int index)=> _TravelItem(
+               item: travelItems[index],index: index),
+               staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
+           ),
+         ),
+       ),
+     ),
+    
+
+);
+
   }
+Future<Null> _handleRefresh() async{
+  _loadData();
+  return null;
+
+}
+
+  _loadData({loadMore = false}) async{
 
 
-  _loadData() async{
+    if (loadMore) {
+      pageIndex++;
+    }else{
+      pageIndex = 1;
+
+    }
 
     try{
 
@@ -82,12 +113,15 @@ class _TravelTabPageState extends State<TravelTabPage> {
         }else{
           travelItems = items;
         }
+        _loading = false;
       });
 
 
     }catch(error){
 
       print( error);
+      _loading = false;
+
     }
 
 
@@ -110,13 +144,6 @@ class _TravelTabPageState extends State<TravelTabPage> {
     return filterItems;
 
   }
-
-  //下拉刷新
-  Future<Null> _handlerRefresh() async{
-    _loadData();
-    return null;
-
-  }
   
 }
 
@@ -135,15 +162,22 @@ class _TravelItem extends StatelessWidget {
       onTap: (){
 
       },
+
       child: Card(
+        
         child: PhysicalModel(
+
+          //设置透明度、圆角、是否裁剪   (borderRadius/clipBehavior需结合使用)
           color: Colors.transparent,
           clipBehavior:  Clip.antiAlias,
           borderRadius: BorderRadius.circular(6),
           child: Column(
             children: <Widget>[
               _itemImage,
+              _itemTitle,
+              _itemInfo,
             ],
+
 
           ),
           
@@ -152,6 +186,90 @@ class _TravelItem extends StatelessWidget {
     );
   }
 
+Widget get _itemInfo{
+
+return Container(
+  child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: <Widget>[
+
+      Row(
+        children: <Widget>[
+         
+         PhysicalModel(
+           color: Colors.transparent,
+           clipBehavior: Clip.antiAlias,
+           borderRadius: BorderRadius.circular(12),
+           child: CachedImage(
+             imageUrl: item.article.author?.coverImage?.dynamicUrl,
+             width: 24,
+             height: 24,
+           ),
+         ),
+         Container(
+           padding: EdgeInsets.all(5),
+           width: 90,
+           color: Colors.red,
+           child: Text(
+             item.article.author?.nickName,
+             maxLines:1,
+             overflow: TextOverflow.ellipsis,
+             style: TextStyle(fontSize: 12),
+             
+           ),
+         ),
+
+
+
+        ],
+      ),
+
+      Row(
+        children: <Widget>[
+          
+          Icon(Icons.thumb_up,
+          color: Colors.grey,
+          size: 14,),
+         
+         Container(
+           padding: EdgeInsets.only(left:4),
+           child: Text(
+             item.article.likeCount.toString(),
+             style:TextStyle(fontSize:10),
+
+           ),
+
+         ),
+          
+        ],
+      )
+       
+     
+      
+    ],
+  ),
+
+);
+
+}
+Widget get _itemTitle{
+
+  return Container(
+    padding: EdgeInsets.all(4),
+     child: Text(
+    item.article.articleTitle,
+    overflow: TextOverflow.ellipsis,
+    maxLines: 2,
+    style: TextStyle(
+      fontSize: 14,
+      color: Colors.black,
+      
+    ),
+     ),
+
+  );
+
+}
  Widget get _itemImage{
 
    return Stack(
@@ -186,6 +304,7 @@ class _TravelItem extends StatelessWidget {
                   child: Text(
                     _poiName(),
                     maxLines: 1,
+
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 12,color: Colors.white),
                     
